@@ -1,4 +1,4 @@
-﻿namespace CRM.Web.ClientApp.Modules;
+﻿namespace CRM.Web.Modules;
 
 public static class ClientModule
 {
