@@ -1,5 +1,4 @@
 ﻿import React, {useState} from "react";
-import {json} from "react-router-dom";
 
 const AddCustomer = () => {
     const [formData, setFormData] = useState({

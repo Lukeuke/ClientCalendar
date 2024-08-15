@@ -15,9 +15,9 @@ const CalendarPage = () => {
             })
             .then(data => setEvents(data));
        
-    }, [])*/
+    }, [])
     
-/*    if (events == null) {
+    if (events == null) {
        return <>Loading...</> 
     }*/
 
