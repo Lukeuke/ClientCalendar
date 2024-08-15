@@ -75,10 +75,11 @@ public static class BookingModule
                 {
                     return Results.Forbid();
                 }
-                
+
+                var bookingId = Guid.NewGuid();
                 var booking = new Booking
                 {
-                    Id = Guid.NewGuid(),
+                    Id = bookingId,
                     Title = requestDto.ServiceType,
                     Start = ((DateTimeOffset)requestDto.DateStart).ToUnixTimeSeconds(),
                     End = ((DateTimeOffset)requestDto.DateEnd).ToUnixTimeSeconds(),
@@ -91,7 +92,7 @@ public static class BookingModule
                 await context.Bookings.AddAsync(booking);
                 await context.SaveChangesAsync();
 
-                return Results.Created($"/calendar/{requestDto.CalendarId}/details/{client.Id}", null);
+                return Results.Created($"/calendar/{requestDto.CalendarId}/details/{bookingId}", null);
             })
             .RequireAuthorization();
     }
