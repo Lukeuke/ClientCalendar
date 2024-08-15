@@ -34,13 +34,13 @@ namespace CRM.Infrastructure.Migrations
                     b.Property<Guid>("ClientId")
                         .HasColumnType("uuid");
 
-                    b.Property<long>("EndDate")
+                    b.Property<long>("End")
                         .HasColumnType("bigint");
 
                     b.Property<Guid>("ServiceTypeId")
                         .HasColumnType("uuid");
 
-                    b.Property<long>("StartDate")
+                    b.Property<long>("Start")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Title")

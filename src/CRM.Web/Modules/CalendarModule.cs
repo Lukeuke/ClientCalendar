@@ -29,6 +29,7 @@ public static class CalendarModule
             var result = await calendarRepository.AddAsync(calendar);
 
             return result is not null ? Results.Created("/graphql", calendar) : Results.BadRequest();
-        });
+        })
+            .RequireAuthorization();
     }
 }

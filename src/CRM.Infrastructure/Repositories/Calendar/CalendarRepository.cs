@@ -19,4 +19,25 @@ public class CalendarRepository : BaseRepository<Domain.Entities.Calendar>, ICal
             .Where(x => x.OwnerId == userId)
             .ToListAsync();
     }
+
+    public async Task<Domain.Entities.Calendar?> GetFromUserAsync(Guid userId, Guid calendarId)
+    {
+        var calendar = await _context.Calendars
+            .Include(x => x.Owner)
+            .Include(x => x.Bookings)!.ThenInclude(x => x.Client)
+            .Include(x => x.ServiceTypes)
+            .FirstOrDefaultAsync(x => x.Id == calendarId && x.OwnerId == userId);
+
+        return calendar;
+    }
+
+    public async Task<Domain.Entities.Calendar?> GetById(Guid calendarId)
+    {
+        return await _context.Calendars
+            .Include(x => x.Owner)
+            .Include(x => x.Bookings)!.ThenInclude(x => x.Client)
+            .Include(x => x.ServiceTypes)
+            .FirstOrDefaultAsync(x => x.Id == calendarId);
+
+    }
 }

@@ -10,6 +10,6 @@ public class ServiceType
     public required string Name { get; set; }
     public required decimal Price { get; set; }
 
-    public required Calendar Calendar { get; set; }
+    public Calendar Calendar { get; set; }
     public required Guid CalendarId { get; set; }
 }

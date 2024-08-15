@@ -6,11 +6,14 @@ using CRM.Application.Services.Identity;
 using CRM.Domain.Entities;
 using CRM.Infrastructure.Context;
 using CRM.Infrastructure.Repositories.Abstraction;
+using CRM.Infrastructure.Repositories.Booking;
 using CRM.Infrastructure.Repositories.Calendar;
+using CRM.Infrastructure.Repositories.Client;
 using CRM.Infrastructure.Repositories.Identity;
 using CRM.Web.Modules;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +22,11 @@ var settings = new Settings();
 builder.Configuration.Bind("Settings", settings);
 builder.Services.AddSingleton(settings);
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+    });
 
 builder.Services.AddNpgsql<ApplicationContext>(builder.Configuration.GetConnectionString("PostgreSQL"));
 
@@ -32,6 +39,12 @@ builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<BaseRepository<Calendar>, CalendarRepository>();
 builder.Services.AddScoped<ICalendarRepository, CalendarRepository>();
 
+// Client Services
+builder.Services.AddScoped<BaseRepository<Client>, ClientRepository>();
+
+// Booking Services
+builder.Services.AddScoped<BaseRepository<Booking>, BookingRepository>();
+    
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => 
     options.TokenValidationParameters = new TokenValidationParameters
@@ -70,7 +83,7 @@ app.UseRouting();
 
 // REST API
 app.AddIdentityEndpoint();
-app.AddClientEndpoint();
+app.AddBookingEndpoint();
 app.AddCalendarEndpoint();
 
 // GraphQL

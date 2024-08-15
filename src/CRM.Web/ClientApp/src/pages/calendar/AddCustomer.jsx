@@ -1,13 +1,20 @@
 ﻿import React, {useState} from "react";
+import {useParams} from "react-router-dom";
 
 const AddCustomer = () => {
+    const { id } = useParams()
+    
+    const [message, setMessage] = useState();
+    
     const [formData, setFormData] = useState({
+        calendarId: id,
         name: '',
         surname: '',
         serviceType: '',
         dateStart: '',
         dateEnd: '',
-        price: ''
+        price: 0.0,
+        phoneNumber: ''
     });
 
     const handleChange = (e) => {
@@ -21,23 +28,36 @@ const AddCustomer = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         
+        formData.calendarId = id
+        
         console.log('Form Data:', formData);
         
-        fetch("api/client", {
+        let token = window.localStorage.getItem("jwt");
+
+        fetch("api/booking", {
             method: "PUT",
+            headers: {
+                "Content-Type": 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
             body: JSON.stringify(formData)
-        }).then(res => res.json())
-        
-        return;
-        
-        setFormData({
-            name: '',
-            surname: '',
-            serviceType: '',
-            dateStart: '',
-            dateEnd: '',
-            price: ''
-        });
+        })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('Failed to create booking');
+                }
+                return res.headers.get('Location');
+            })
+            .then(url => {
+                if (url) {
+                    console.log(url)
+                    window.location.replace(window.location.origin + url);
+                } else {
+                    setMessage('Nie udało się stworzyć rezerwacji.');
+                }
+            })
+            .catch(error => {
+            });
     };
 
     return (
@@ -110,6 +130,32 @@ const AddCustomer = () => {
                 </div>
 
                 <div>
+                    <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">Numer telefonu</label>
+                    <input
+                        type="tel"
+                        id="phoneNumber"
+                        name="phoneNumber"
+                        value={formData.phoneNumber}
+                        onChange={handleChange}
+                        required
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                    />
+                </div>
+
+                <div>
+                    <label htmlFor="address" className="block text-sm font-medium text-gray-700">Adres</label>
+                    <input
+                        type="text"
+                        id="address"
+                        name="address"
+                        value={formData.address}
+                        onChange={handleChange}
+                        required
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                    />
+                </div>
+                
+                <div>
                     <label htmlFor="price" className="block text-sm font-medium text-gray-700">Cena</label>
                     <input
                         type="number"
@@ -130,6 +176,8 @@ const AddCustomer = () => {
                         Dodaj
                     </button>
                 </div>
+                
+                <div className="text-danger">{message}</div>
             </form>
         </div>
     );

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CRM.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class mInitial : Migration
+    public partial class mBookingDateChange : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -95,8 +95,8 @@ namespace CRM.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: false),
-                    StartDate = table.Column<long>(type: "bigint", nullable: false),
-                    EndDate = table.Column<long>(type: "bigint", nullable: false),
+                    Start = table.Column<long>(type: "bigint", nullable: false),
+                    End = table.Column<long>(type: "bigint", nullable: false),
                     ClientId = table.Column<Guid>(type: "uuid", nullable: false),
                     CalendarId = table.Column<Guid>(type: "uuid", nullable: false),
                     ServiceTypeId = table.Column<Guid>(type: "uuid", nullable: false)

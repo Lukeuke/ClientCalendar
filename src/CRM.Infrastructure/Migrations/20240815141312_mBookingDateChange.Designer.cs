@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CRM.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20240815120153_mInitial")]
-    partial class mInitial
+    [Migration("20240815141312_mBookingDateChange")]
+    partial class mBookingDateChange
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,13 +37,13 @@ namespace CRM.Infrastructure.Migrations
                     b.Property<Guid>("ClientId")
                         .HasColumnType("uuid");
 
-                    b.Property<long>("EndDate")
+                    b.Property<long>("End")
                         .HasColumnType("bigint");
 
                     b.Property<Guid>("ServiceTypeId")
                         .HasColumnType("uuid");
 
-                    b.Property<long>("StartDate")
+                    b.Property<long>("Start")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Title")

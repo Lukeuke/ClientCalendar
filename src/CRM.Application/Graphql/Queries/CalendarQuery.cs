@@ -21,4 +21,18 @@ public class CalendarQuery
 
         return await calendarRepository.GetAllForUserAsync(userId);
     }
+    
+    [Authorize]
+    [UseFiltering]
+    [UseSorting]
+    public async Task<Calendar?> GetCalendar(
+        [Service] ICalendarRepository calendarRepository,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        Guid id
+    )
+    {
+        var userId = httpContextAccessor.GetUserIdFromJwt();
+
+        return await calendarRepository.GetFromUserAsync(userId, id);
+    }
 }

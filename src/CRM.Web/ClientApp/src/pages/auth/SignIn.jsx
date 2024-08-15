@@ -32,6 +32,7 @@ function SignIn() {
                 const data = await response.json();
                 const token = data.token;
 
+                localStorage.removeItem('jwt');
                 localStorage.setItem('jwt', token);
                 
                 window.location.replace('/');

@@ -24,8 +24,7 @@ moment.locale('pl');
 
 const CustomCalendar = ({ events }) => {
     const handleEventClick = (event) => {
-        console.log(event)
-        window.location.replace(`/calendar/details/${event.id}`)
+        window.location.replace(`/calendar/${event.calendarId}/details/${event.id}`)
     };
     
     return (
