@@ -10,9 +10,8 @@ function CalendarDetails() {
   {
     calendar(
       id: "${calendarId}"
-      where: { bookings: { all: { id: { eq: "${bookingId}" } } } }
     ) {
-      bookings {
+      bookings(where: { id: { eq: "${bookingId}" } }) {
         end
         id
         serviceTypeId
@@ -60,6 +59,12 @@ function CalendarDetails() {
           </div>
         </div>
 
+        
+        <div className="mb-2 flex gap-2">
+          <button className="btn btn-danger">Delete</button>
+          <button className="btn btn-primary">Edit</button>
+        </div>
+        
         <div className="text-gray-500 text-sm mb-2">
           <span className="font-medium">Calendar ID:</span> {calendarId}
         </div>

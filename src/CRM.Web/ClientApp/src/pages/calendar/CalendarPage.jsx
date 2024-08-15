@@ -20,6 +20,7 @@ const CalendarPage = () => {
           serviceTypeId
           start
           end
+          color
           title
           client {
             address
@@ -45,12 +46,15 @@ const CalendarPage = () => {
         calendarId: data.calendar.id,
         title: `${booking.client.shortName} - ${booking.title}`,
         start: new Date(booking.start * 1000),
-        end: new Date(booking.end * 1000)
+        end: new Date(booking.end * 1000),
+        color: booking.color
     }));
     
     return (
         <>
-          <div className="h1">{data.calendar.name}</div>
+          <div className="mb-4">
+            <div className="h1">{data.calendar.name}</div>
+          </div>
           <CustomCalendar events={events} />
           <div className="mt-2 mb-2 text-xl sm:text-l">
             <a href={`calendar/${data.calendar.id}/customer/add`} className="underline">Dodaj klienta</a>

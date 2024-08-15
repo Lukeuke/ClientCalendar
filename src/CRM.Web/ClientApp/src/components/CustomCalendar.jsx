@@ -24,7 +24,20 @@ moment.locale('pl');
 
 const CustomCalendar = ({ events }) => {
     const handleEventClick = (event) => {
+        console.log(event)
         window.location.replace(`/calendar/${event.calendarId}/details/${event.id}`)
+    };
+
+    const eventPropGetter = (event) => {
+        let backgroundColor = event.color;
+
+        return {
+            style: {
+                backgroundColor,
+                borderColor: backgroundColor,
+                color: 'white'
+            }
+        };
     };
     
     return (
@@ -34,9 +47,10 @@ const CustomCalendar = ({ events }) => {
                 events={events}
                 startAccessor="start"
                 endAccessor="end"
-                style={{ height: 500 }}
+                style={{ height: 700 }}
                 messages={messages}
                 onSelectEvent={handleEventClick}
+                eventPropGetter={eventPropGetter}
             />
         </div>
     );

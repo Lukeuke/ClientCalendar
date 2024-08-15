@@ -9,4 +9,5 @@ public record CreateBookingRequestDto(
     DateTime DateEnd, 
     decimal Price, 
     string PhoneNumber,
-    string Address);
+    string Address,
+    string Color);

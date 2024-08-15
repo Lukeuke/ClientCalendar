@@ -82,6 +82,7 @@ public static class BookingModule
                     Title = requestDto.ServiceType,
                     Start = ((DateTimeOffset)requestDto.DateStart).ToUnixTimeSeconds(),
                     End = ((DateTimeOffset)requestDto.DateEnd).ToUnixTimeSeconds(),
+                    Color = requestDto.Color,
                     ClientId = client.Id,
                     CalendarId = requestDto.CalendarId,
                     ServiceTypeId = service.Id
