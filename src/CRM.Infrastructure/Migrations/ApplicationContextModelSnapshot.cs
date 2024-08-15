@@ -28,6 +28,9 @@ namespace CRM.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("CalendarId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("ClientId")
                         .HasColumnType("uuid");
 
@@ -45,6 +48,8 @@ namespace CRM.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CalendarId");
 
                     b.HasIndex("ClientId");
 
@@ -170,6 +175,12 @@ namespace CRM.Infrastructure.Migrations
 
             modelBuilder.Entity("CRM.Domain.Entities.Booking", b =>
                 {
+                    b.HasOne("CRM.Domain.Entities.Calendar", "Calendar")
+                        .WithMany("Bookings")
+                        .HasForeignKey("CalendarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CRM.Domain.Entities.Client", "Client")
                         .WithMany("Bookings")
                         .HasForeignKey("ClientId")
@@ -181,6 +192,8 @@ namespace CRM.Infrastructure.Migrations
                         .HasForeignKey("ServiceTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Calendar");
 
                     b.Navigation("Client");
 
@@ -201,7 +214,7 @@ namespace CRM.Infrastructure.Migrations
             modelBuilder.Entity("CRM.Domain.Entities.Client", b =>
                 {
                     b.HasOne("CRM.Domain.Entities.Calendar", "Calendar")
-                        .WithMany("Clients")
+                        .WithMany()
                         .HasForeignKey("CalendarId");
 
                     b.Navigation("Calendar");
@@ -220,7 +233,7 @@ namespace CRM.Infrastructure.Migrations
 
             modelBuilder.Entity("CRM.Domain.Entities.Calendar", b =>
                 {
-                    b.Navigation("Clients");
+                    b.Navigation("Bookings");
 
                     b.Navigation("ServiceTypes");
                 });

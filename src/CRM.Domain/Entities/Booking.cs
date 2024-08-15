@@ -14,6 +14,9 @@ public class Booking
     public virtual required Client Client { get; set; }
     public virtual required Guid ClientId { get; set; }
         
+    public virtual required Calendar Calendar { get; set; }
+    public virtual required Guid CalendarId { get; set; }
+    
     public virtual required ServiceType ServiceType { get; set; }
     public virtual required Guid ServiceTypeId { get; set; }
 }

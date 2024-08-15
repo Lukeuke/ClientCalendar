@@ -8,6 +8,10 @@
 
     <ItemGroup>
       <PackageReference Include="AutoMapper" Version="13.0.1" />
+      <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="14.0.0-p.141" />
+      <PackageReference Include="HotChocolate.Data" Version="14.0.0-p.141" />
+      <PackageReference Include="HotChocolate.Types.Filters" Version="13.9.11" />
+      <PackageReference Include="HotChocolate.Types.Sorting" Version="13.9.11" />
     </ItemGroup>
 
 </Project>

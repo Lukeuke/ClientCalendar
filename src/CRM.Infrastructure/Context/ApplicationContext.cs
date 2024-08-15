@@ -23,7 +23,7 @@ public class ApplicationContext : DbContext
             eb.HasOne(x => x.Owner)
                 .WithMany(x => x.Calendars);
 
-            eb.HasMany(x => x.Clients)
+            eb.HasMany(x => x.Bookings)
                 .WithOne(x => x.Calendar);
 
             eb.HasMany(x => x.ServiceTypes)
@@ -32,8 +32,7 @@ public class ApplicationContext : DbContext
         
         modelBuilder.Entity<Client>(eb =>
         {
-            eb.HasOne(x => x.Calendar)
-                .WithMany(x => x.Clients);
+            eb.HasOne(x => x.Calendar);
         });
 
         modelBuilder.Entity<Booking>(eb =>

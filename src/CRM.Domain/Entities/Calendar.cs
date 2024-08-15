@@ -12,6 +12,6 @@ public class Calendar
     public virtual User Owner { get; set; }
     public virtual Guid OwnerId { get; set; }
     
-    public virtual List<Client>? Clients { get; set; }
+    public virtual List<Booking>? Bookings { get; set; }
     public virtual List<ServiceType>? ServiceTypes { get; set; }
 }

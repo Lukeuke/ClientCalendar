@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CRM.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20240814185308_mUserEmail")]
-    partial class mUserEmail
+    [Migration("20240815120153_mInitial")]
+    partial class mInitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,6 +29,9 @@ namespace CRM.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CalendarId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("ClientId")
@@ -48,6 +51,8 @@ namespace CRM.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CalendarId");
 
                     b.HasIndex("ClientId");
 
@@ -173,6 +178,12 @@ namespace CRM.Infrastructure.Migrations
 
             modelBuilder.Entity("CRM.Domain.Entities.Booking", b =>
                 {
+                    b.HasOne("CRM.Domain.Entities.Calendar", "Calendar")
+                        .WithMany("Bookings")
+                        .HasForeignKey("CalendarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CRM.Domain.Entities.Client", "Client")
                         .WithMany("Bookings")
                         .HasForeignKey("ClientId")
@@ -184,6 +195,8 @@ namespace CRM.Infrastructure.Migrations
                         .HasForeignKey("ServiceTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Calendar");
 
                     b.Navigation("Client");
 
@@ -204,7 +217,7 @@ namespace CRM.Infrastructure.Migrations
             modelBuilder.Entity("CRM.Domain.Entities.Client", b =>
                 {
                     b.HasOne("CRM.Domain.Entities.Calendar", "Calendar")
-                        .WithMany("Clients")
+                        .WithMany()
                         .HasForeignKey("CalendarId");
 
                     b.Navigation("Calendar");
@@ -223,7 +236,7 @@ namespace CRM.Infrastructure.Migrations
 
             modelBuilder.Entity("CRM.Domain.Entities.Calendar", b =>
                 {
-                    b.Navigation("Clients");
+                    b.Navigation("Bookings");
 
                     b.Navigation("ServiceTypes");
                 });

@@ -18,6 +18,7 @@ namespace CRM.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     FirstName = table.Column<string>(type: "text", nullable: false),
                     LastName = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
                     PasswordHash = table.Column<string>(type: "text", nullable: false),
                     Salt = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<long>(type: "bigint", nullable: false)
@@ -97,11 +98,18 @@ namespace CRM.Infrastructure.Migrations
                     StartDate = table.Column<long>(type: "bigint", nullable: false),
                     EndDate = table.Column<long>(type: "bigint", nullable: false),
                     ClientId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CalendarId = table.Column<Guid>(type: "uuid", nullable: false),
                     ServiceTypeId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Bookings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bookings_Calendars_CalendarId",
+                        column: x => x.CalendarId,
+                        principalTable: "Calendars",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Bookings_Clients_ClientId",
                         column: x => x.ClientId,
@@ -115,6 +123,11 @@ namespace CRM.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bookings_CalendarId",
+                table: "Bookings",
+                column: "CalendarId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_ClientId",

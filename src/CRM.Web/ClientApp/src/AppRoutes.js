@@ -4,6 +4,7 @@ import AddCustomer from "./pages/AddCustomer";
 import Authorized from "./components/auth/Authorized";
 import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SIgnUp";
+import Calendars from "./pages/calendar/Calendars";
 
 const AppRoutes = [
   {
@@ -15,6 +16,12 @@ const AppRoutes = [
     element: <Authorized>
                 <CalendarPage />
             </Authorized>
+  },
+  {
+    path: '/calendars',
+    element: <Authorized>
+      <Calendars />
+    </Authorized>
   },
   {
     path: '/customer/add',

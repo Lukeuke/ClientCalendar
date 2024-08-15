@@ -1,10 +1,12 @@
 using System.Text;
+using CRM.Application.Graphql.Mutations;
+using CRM.Application.Graphql.Queries;
 using CRM.Application.Models;
-using CRM.Application.Queries;
 using CRM.Application.Services.Identity;
 using CRM.Domain.Entities;
 using CRM.Infrastructure.Context;
 using CRM.Infrastructure.Repositories.Abstraction;
+using CRM.Infrastructure.Repositories.Calendar;
 using CRM.Infrastructure.Repositories.Identity;
 using CRM.Web.Modules;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -21,9 +23,14 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddNpgsql<ApplicationContext>(builder.Configuration.GetConnectionString("PostgreSQL"));
 
+// Identity Services
 builder.Services.AddScoped<BaseRepository<User>, IdentityRepository>();
 builder.Services.AddScoped<IIdentityRepository, IdentityRepository>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
+
+// Calendar Services
+builder.Services.AddScoped<BaseRepository<Calendar>, CalendarRepository>();
+builder.Services.AddScoped<ICalendarRepository, CalendarRepository>();
 
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => 
@@ -36,9 +43,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateIssuer = true
     });
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services
     .AddGraphQLServer()
-    .AddQueryType<CalendarQuery>();
+    .AddQueryType<CalendarQuery>()
+    .AddMutationType<CalendarMutation>()
+    .AddSorting()
+    .AddFiltering()
+    .AddAuthorization();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -56,8 +69,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 // REST API
-app.AddClientEndpoint();
 app.AddIdentityEndpoint();
+app.AddClientEndpoint();
+app.AddCalendarEndpoint();
 
 // GraphQL
 app.MapGraphQL();
