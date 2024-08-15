@@ -1,4 +1,10 @@
 # ClientCalendar
+![.Net](https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![HotChocolate](https://img.shields.io/badge/HOT%20CHOCOLATE-%2320232a.svg?style=for-the-badge&logo=hotchocolate&logoColor=%2361DAFB)
+![Apollo-GraphQL](https://img.shields.io/badge/-ApolloGraphQL-311C87?style=for-the-badge&logo=apollo-graphql)
+![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 
 ClientCalendar is a powerful tool that allows you to create, manage, and assign calendars to your clients or customers, streamlining your scheduling and timeline management.
 
