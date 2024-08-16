@@ -38,24 +38,23 @@ public static class BookingModule
                     await clientRepository.AddAsync(client);
                 }
 
+                /*
                 var service = await context.ServiceTypes
                     .Include(x => x.Calendar).ThenInclude(x => x.Owner)
                     .FirstOrDefaultAsync(x =>
                         x.CalendarId == requestDto.CalendarId && x.Name == requestDto.ServiceType);
+                        */
 
-                if (service is null)
+                var service = new ServiceType
                 {
-                    service = new ServiceType
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = requestDto.ServiceType,
-                        Price = requestDto.Price,
-                        CalendarId = requestDto.CalendarId
-                    };
+                    Id = Guid.NewGuid(),
+                    Name = requestDto.ServiceType,
+                    Price = requestDto.Price,
+                    CalendarId = requestDto.CalendarId
+                };
 
-                    await context.ServiceTypes.AddAsync(service);
-                    await context.SaveChangesAsync();
-                }
+                await context.ServiceTypes.AddAsync(service);
+                await context.SaveChangesAsync();
 
                 var jwt = authorization.Split(" ")[^1].DeAssembleClaimsIdentity("id")?.Value;
 
